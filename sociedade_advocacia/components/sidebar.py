@@ -1,4 +1,5 @@
 import dash
+import plotly.express as px
 from dash import html, dcc, callback_context
 from dash.dependencies import Input, Output, State, ALL
 import dash_bootstrap_components as dbc
@@ -41,7 +42,6 @@ layout = dbc.Container([
 ], style={'height': '100vh', 'padding': '0px', 'position':'sticky', 'top': 0, 'background-color': '#232423'})
     
 
-
 # ======= Callbacks ======== #
 # Abrir Modal New Lawyer
 @app.callback(
@@ -56,3 +56,14 @@ def toggle_modal(n, n2, is_open):
     return is_open
 
 # Abrir Modal Lawyers
+@app.callback(
+    Output('modal_lawyers', "is_open"),
+    Input('lawyers_button', 'n_clicks'),
+    Input('quit_button', 'n_clicks'),
+    Input('new_adv_button', 'n_clicks'),
+    State('modal_lawyers', "is_open")
+)
+def toggle_modal(n, n2, n3, is_open):
+    if n or n2 or n3:
+        return not is_open
+    return is_open
