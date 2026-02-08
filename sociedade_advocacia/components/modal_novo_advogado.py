@@ -36,7 +36,6 @@ layout = dbc.Modal([
         ], id="modal_new_lawyer", size="lg", is_open=False)
 
 
-
 # ======= Callbacks ======== #
 # Callback para adicionar novos advogados
 @app.callback(
@@ -69,3 +68,19 @@ def novo_adv(n, dataset, nome, oab, cpf):
         dataset = df_adv.to_dict()
         return dataset, ["Cadastro realizado com sucesso!"], {'margin-bottom': '15px', 'color': 'green', 'text-shadow': '2px 2px 8px #000000'}
     return dataset, erro, style
+
+from dash.exceptions import PreventUpdate
+
+from dash.exceptions import PreventUpdate
+
+@app.callback(
+    Output("adv_oab", "value"),
+    Output("adv_cpf", "value"),
+    Output("adv_nome", "value"),
+    Input("modal_new_lawyer", "is_open"),
+)
+def limpar_campos_quando_abrir(is_open):
+    if not is_open:
+        raise PreventUpdate
+    return None, None, ""
+
